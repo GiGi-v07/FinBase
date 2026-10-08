@@ -14,6 +14,7 @@ Routes
 
 Every query runs through mysql.exe using subprocess.
 """
+import os
 import html
 import subprocess
 from datetime import date
@@ -23,9 +24,19 @@ from urllib.parse import parse_qs, urlparse, urlencode
 
 import templates as T
 
-MYSQL_PATH = r"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"
-DB_PASS = "student"
-DB_NAME = "Financedb"
+# Load local .env file if present (without external packages)
+_env_file = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(_env_file):
+    with open(_env_file, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+MYSQL_PATH = os.environ.get("MYSQL_PATH", r"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe")
+DB_PASS = os.environ.get("DB_PASS", "")
+DB_NAME = os.environ.get("DB_NAME", "Financedb")
 HOST, PORT = "localhost", 8000
 
 

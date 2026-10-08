@@ -7,20 +7,33 @@ client via `subprocess`.
 
 ## Requirements
 
-- Python 3.8+ (no `pip install` needed)
-- MySQL Server 8.0 with `mysql.exe` at
-  `C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe`
-- MySQL `root` user with the password set in the scripts (default `student`)
+- Python 3.8+ (no `pip install` needed, Standard Library only)
+- MySQL Server 8.0 with `mysql.exe` installed
+- MySQL `root` user
 
-If your setup differs, edit `MYSQL_PATH`, `DB_PASS` and `DB_NAME` at the top of both
-`setup_db.py` and `app.py`.
+## Setup & Configuration
 
-## Quick start
+1. Copy `.env.example` to `.env`:
+   ```powershell
+   copy .env.example .env
+   ```
+2. Open `.env` and set your MySQL root password:
+   ```ini
+   DB_PASS=student
+   MYSQL_PATH="C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"
+   DB_NAME=Financedb
+   ```
+   *(The `.env` file is in `.gitignore`, so your password won't be pushed to Git).*
 
-```powershell
-python setup_db.py   # one time: creates database Financedb, tables, keys, view
-python app.py        # starts the server
-```
+3. Run the setup script to initialize the database:
+   ```powershell
+   python setup_db.py   # one time: creates database Financedb, tables, keys, view
+   ```
+
+4. Start the server:
+   ```powershell
+   python app.py
+   ```
 
 Then open <http://localhost:8000>.
 
